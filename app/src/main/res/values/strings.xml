@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Sticker Maker</string>
+
+    <!-- Main -->
+    <string name="my_packs">My sticker packs</string>
+    <string name="new_pack">New pack</string>
+    <string name="empty_title">No packs yet</string>
+    <string name="empty_body">Create a pack, then turn your photos, videos and GIFs into WhatsApp stickers.</string>
+    <string name="pack_subtitle">%1$s · %2$d/30 · %3$s</string>
+
+    <!-- New pack dialog -->
+    <string name="pack_name">Pack name</string>
+    <string name="publisher">Author</string>
+    <string name="pack_type">Pack type</string>
+    <string name="type_static">Static</string>
+    <string name="type_animated">Animated</string>
+    <string name="type_hint">WhatsApp doesn\'t allow mixing: a static pack holds still stickers, an animated pack holds moving ones. You can add photos, videos or GIFs to either.</string>
+    <string name="create">Create</string>
+    <string name="cancel">Cancel</string>
+    <string name="save">Save</string>
+    <string name="delete">Delete</string>
+    <string name="required_field">Required</string>
+
+    <!-- Pack screen -->
+    <string name="add_sticker">Add sticker</string>
+    <string name="add_to_whatsapp">Add to WhatsApp</string>
+    <string name="sticker_count">%1$d of 30 stickers</string>
+    <string name="need_min">Add at least 3 stickers to send this pack to WhatsApp.</string>
+    <string name="pack_full">A pack holds up to 30 stickers.</string>
+    <string name="added_to_whatsapp">Added to WhatsApp — changes update automatically</string>
+    <string name="whatsapp_not_installed">WhatsApp isn\'t installed on this phone.</string>
+    <string name="whatsapp_error">WhatsApp couldn\'t add the pack:\n%1$s</string>
+    <string name="whatsapp_pick">Add with</string>
+    <string name="edit_pack">Edit name</string>
+    <string name="delete_pack">Delete pack</string>
+    <string name="delete_pack_confirm">Delete “%1$s” and all its stickers?</string>
+    <string name="sticker_emoji">Emoji (up to 3)</string>
+    <string name="sticker_emoji_help">WhatsApp uses these to suggest the sticker.</string>
+    <string name="empty_pack">Tap “Add sticker” to pick a photo, video or GIF.</string>
+
+    <!-- Editor -->
+    <string name="editor_title">New sticker</string>
+    <string name="framing">Framing</string>
+    <string name="fit">Fit</string>
+    <string name="fill">Fill (crop)</string>
+    <string name="clip">Clip</string>
+    <string name="clip_label">%1$.1fs – %2$.1fs  ·  %3$.1fs long (max 10s)</string>
+    <string name="frame">Frame</string>
+    <string name="frame_label">At %1$.1fs</string>
+    <string name="smoothness">Smoothness</string>
+    <string name="fps_8">Light</string>
+    <string name="fps_10">Normal</string>
+    <string name="fps_15">Smooth</string>
+    <string name="static_note">This is a static pack, so one frame is used.</string>
+    <string name="make_sticker">Make sticker</string>
+    <string name="working_frames">Reading frames…</string>
+    <string name="working_compress">Compressing for WhatsApp…</string>
+    <string name="sticker_saved">Sticker added</string>
+    <string name="error_convert">Couldn\'t convert this file.</string>
+    <string name="error_too_large">This clip is too detailed to fit WhatsApp\'s 500 KB limit. Try a shorter clip or “Light” smoothness.</string>
+    <string name="error_open">Couldn\'t open this file.</string>
+</resources>

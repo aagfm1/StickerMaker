@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">صانع الستيكرات</string>
+
+    <!-- Main -->
+    <string name="my_packs">حزم الستيكرات</string>
+    <string name="new_pack">حزمة جديدة</string>
+    <string name="empty_title">لا توجد حزم بعد</string>
+    <string name="empty_body">أنشئ حزمة، ثم حوّل صورك ومقاطعك وملفات GIF إلى ستيكرات واتساب.</string>
+    <string name="pack_subtitle">%1$s · %2$d/30 · %3$s</string>
+
+    <!-- New pack dialog -->
+    <string name="pack_name">اسم الحزمة</string>
+    <string name="publisher">اسم الناشر</string>
+    <string name="pack_type">نوع الحزمة</string>
+    <string name="type_static">ثابتة</string>
+    <string name="type_animated">متحركة</string>
+    <string name="type_hint">واتساب لا يسمح بالخلط: الحزمة الثابتة للستيكرات الثابتة، والمتحركة للستيكرات المتحركة. تقدر تضيف صور أو فيديو أو GIF لأي نوع.</string>
+    <string name="create">إنشاء</string>
+    <string name="cancel">إلغاء</string>
+    <string name="save">حفظ</string>
+    <string name="delete">حذف</string>
+    <string name="required_field">مطلوب</string>
+
+    <!-- Pack screen -->
+    <string name="add_sticker">إضافة ستيكر</string>
+    <string name="add_to_whatsapp">أضف إلى واتساب</string>
+    <string name="sticker_count">%1$d من 30 ستيكر</string>
+    <string name="need_min">أضف 3 ستيكرات على الأقل لإرسال الحزمة إلى واتساب.</string>
+    <string name="pack_full">الحزمة تتسع لـ 30 ستيكر كحد أقصى.</string>
+    <string name="added_to_whatsapp">مضافة إلى واتساب — التعديلات تتحدث تلقائياً</string>
+    <string name="whatsapp_not_installed">واتساب غير مثبت على هذا الجوال.</string>
+    <string name="whatsapp_error">واتساب ما قدر يضيف الحزمة:\n%1$s</string>
+    <string name="whatsapp_pick">أضف عبر</string>
+    <string name="edit_pack">تعديل الاسم</string>
+    <string name="delete_pack">حذف الحزمة</string>
+    <string name="delete_pack_confirm">حذف «%1$s» وكل ستيكراتها؟</string>
+    <string name="sticker_emoji">إيموجي (حتى 3)</string>
+    <string name="sticker_emoji_help">واتساب يستخدمها لاقتراح الستيكر.</string>
+    <string name="empty_pack">اضغط «إضافة ستيكر» لاختيار صورة أو فيديو أو GIF.</string>
+
+    <!-- Editor -->
+    <string name="editor_title">ستيكر جديد</string>
+    <string name="framing">الإطار</string>
+    <string name="fit">ملاءمة</string>
+    <string name="fill">تعبئة (قص)</string>
+    <string name="clip">المقطع</string>
+    <string name="clip_label">من %1$.1f إلى %2$.1f ث  ·  المدة %3$.1f ث (الحد 10 ث)</string>
+    <string name="frame">اللقطة</string>
+    <string name="frame_label">عند %1$.1f ث</string>
+    <string name="smoothness">النعومة</string>
+    <string name="fps_8">خفيفة</string>
+    <string name="fps_10">عادية</string>
+    <string name="fps_15">ناعمة</string>
+    <string name="static_note">هذه حزمة ثابتة، لذلك تُستخدم لقطة واحدة.</string>
+    <string name="make_sticker">إنشاء الستيكر</string>
+    <string name="working_frames">جارٍ قراءة اللقطات…</string>
+    <string name="working_compress">جارٍ الضغط ليناسب واتساب…</string>
+    <string name="sticker_saved">تمت إضافة الستيكر</string>
+    <string name="error_convert">تعذّر تحويل هذا الملف.</string>
+    <string name="error_too_large">المقطع مليان تفاصيل وما يناسب حد واتساب (500 كيلوبايت). جرّب مقطع أقصر أو نعومة «خفيفة».</string>
+    <string name="error_open">تعذّر فتح هذا الملف.</string>
+</resources>
