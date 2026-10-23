@@ -44,6 +44,7 @@
     <string name="framing">Framing</string>
     <string name="fit">Fit</string>
     <string name="fill">Fill (crop)</string>
+    <string name="crop_hint">Drag to move the image, pinch with two fingers to zoom. The square is your sticker.</string>
     <string name="clip">Clip</string>
     <string name="clip_label">%1$.1fs – %2$.1fs  ·  %3$.1fs long (max 10s)</string>
     <string name="frame">Frame</string>
@@ -60,4 +61,11 @@
     <string name="error_convert">Couldn\'t convert this file.</string>
     <string name="error_too_large">This clip is too detailed to fit WhatsApp\'s 500 KB limit. Try a shorter clip or “Light” smoothness.</string>
     <string name="error_open">Couldn\'t open this file.</string>
+
+    <!-- Crash report -->
+    <string name="crash_title">The app closed unexpectedly last time</string>
+    <string name="crash_body">Copy this report and send it so the problem can be fixed:</string>
+    <string name="copy_report">Copy report</string>
+    <string name="report_copied">Report copied</string>
+    <string name="close">Close</string>
 </resources>

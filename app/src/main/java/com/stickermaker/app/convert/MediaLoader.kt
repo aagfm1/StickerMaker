@@ -71,6 +71,10 @@ object MediaLoader {
         return Bitmap.createBitmap(src, 0, 0, src.width, src.height, m, true)
     }
 
+    /** Hardware bitmaps can't be drawn on a software canvas; return a drawable copy if needed. */
+    fun software(bmp: Bitmap): Bitmap =
+        if (bmp.config == Bitmap.Config.HARDWARE) bmp.copy(Bitmap.Config.ARGB_8888, false) else bmp
+
     // ---------------------------------------------------------------- video
 
     fun openVideo(context: Context, uri: Uri): MediaMetadataRetriever =
@@ -83,11 +87,17 @@ object MediaLoader {
     fun videoFrameAt(retriever: MediaMetadataRetriever, timeMs: Long): Bitmap? {
         val us = timeMs * 1000
         return try {
-            val scaled = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
-                retriever.getScaledFrameAtTime(us, MediaMetadataRetriever.OPTION_CLOSEST, 1024, 1024)
-            } else null
+            val scaled = when {
+                Build.VERSION.SDK_INT >= Build.VERSION_CODES.R -> retriever.getScaledFrameAtTime(
+                    us, MediaMetadataRetriever.OPTION_CLOSEST, 1024, 1024,
+                    MediaMetadataRetriever.BitmapParams().apply { preferredConfig = Bitmap.Config.ARGB_8888 },
+                )
+                Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1 ->
+                    retriever.getScaledFrameAtTime(us, MediaMetadataRetriever.OPTION_CLOSEST, 1024, 1024)
+                else -> null
+            }
             scaled ?: retriever.getFrameAtTime(us, MediaMetadataRetriever.OPTION_CLOSEST)
-        } catch (_: Exception) {
+        } catch (_: Throwable) {
             null
         }
     }

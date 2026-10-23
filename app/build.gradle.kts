@@ -15,19 +15,28 @@ android {
         applicationId = "com.stickermaker.app"
         minSdk = 26
         targetSdk = 35
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 2
+        versionName = "1.1"
 
         manifestPlaceholders["contentProviderAuthority"] = stickerAuthority
         buildConfigField("String", "CONTENT_PROVIDER_AUTHORITY", "\"$stickerAuthority\"")
     }
 
+    // A fixed key kept in the repo, so every build installs as an update over the last one.
+    // Fine for personal use; before publishing on Google Play, create a private key and keep it out of git.
+    signingConfigs {
+        create("fixed") {
+            storeFile = file("sticker-release.keystore")
+            storePassword = "stickermaker"
+            keyAlias = "sticker"
+            keyPassword = "stickermaker"
+        }
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = false
-            // Signed with the debug key so the release APK installs directly.
-            // Replace with your own keystore before publishing to Google Play.
-            signingConfig = signingConfigs.getByName("debug")
+            signingConfig = signingConfigs.getByName("fixed")
         }
     }
 

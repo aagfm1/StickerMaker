@@ -15,6 +15,7 @@ import com.google.android.material.slider.RangeSlider
 import com.google.android.material.slider.Slider
 import com.stickermaker.app.R
 import com.stickermaker.app.convert.ConvertOptions
+import com.stickermaker.app.convert.CropTransform
 import com.stickermaker.app.convert.MediaKind
 import com.stickermaker.app.convert.MediaLoader
 import com.stickermaker.app.convert.StickerConverter
@@ -62,7 +63,6 @@ class EditorActivity : AppCompatActivity() {
         setSupportActionBar(b.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        b.preview.background = CheckerDrawable(getColor(R.color.checker), dp(14))
         b.makeButton.isEnabled = false
 
         lifecycleScope.launch {
@@ -75,12 +75,18 @@ class EditorActivity : AppCompatActivity() {
                 Toast.makeText(this@EditorActivity, R.string.error_open, Toast.LENGTH_LONG).show()
                 return@launch finish()
             }
-            setupControls()
+            try {
+                setupControls()
+            } catch (_: Exception) {
+                // A bad duration from the file must not take the whole app down.
+                b.timeSection.isVisible = false
+            }
             refreshPreview()
             b.makeButton.isEnabled = true
         }
 
-        b.framingGroup.addOnButtonCheckedListener { _, _, isChecked -> if (isChecked && ::pack.isInitialized) refreshPreview() }
+        b.framingFit.setOnClickListener { b.preview.setCrop(CropTransform.FIT) }
+        b.framingFill.setOnClickListener { b.preview.fill() }
         b.makeButton.setOnClickListener { makeSticker() }
     }
 
@@ -162,8 +168,6 @@ class EditorActivity : AppCompatActivity() {
         }
     }
 
-    private fun isFill() = b.framingGroup.checkedButtonId == R.id.framingFill
-
     private fun fps() = when (b.fpsGroup.checkedButtonId) {
         R.id.fps8 -> 8
         R.id.fps15 -> 15
@@ -176,18 +180,17 @@ class EditorActivity : AppCompatActivity() {
         previewJob?.cancel()
         b.previewLoading.isVisible = true
         val at = clip().first
-        val fill = isFill()
         previewJob = lifecycleScope.launch {
             val bitmap: Bitmap? = withContext(Dispatchers.IO) {
                 try {
-                    StickerConverter.render(StickerConverter.previewSource(applicationContext, uri, kind, at), fill)
+                    MediaLoader.software(StickerConverter.previewSource(applicationContext, uri, kind, at))
                 } catch (_: Throwable) {
                     null
                 }
             }
             b.previewLoading.isVisible = false
             if (bitmap != null) {
-                b.preview.setImageBitmap(bitmap)
+                b.preview.setImage(bitmap)
                 previewShown = true
             } else if (!previewShown) {
                 Toast.makeText(this@EditorActivity, R.string.error_open, Toast.LENGTH_LONG).show()
@@ -201,7 +204,7 @@ class EditorActivity : AppCompatActivity() {
     private fun makeSticker() {
         val (start, end) = clip()
         val options = ConvertOptions(
-            fill = isFill(),
+            crop = b.preview.crop,
             startMs = start,
             lengthMs = end - start,
             fps = fps(),
@@ -253,7 +256,9 @@ class EditorActivity : AppCompatActivity() {
             b.status.setText(R.string.working_frames)
         }
         b.makeButton.isEnabled = !working
-        b.framingGroup.isEnabled = !working
+        b.framingFit.isEnabled = !working
+        b.framingFill.isEnabled = !working
+        b.preview.isEnabled = !working
         b.fpsGroup.isEnabled = !working
         b.rangeSlider.isEnabled = !working
         b.frameSlider.isEnabled = !working

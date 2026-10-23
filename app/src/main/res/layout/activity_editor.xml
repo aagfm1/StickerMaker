@@ -29,12 +29,11 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal">
 
-                <com.stickermaker.app.ui.SquareImageView
+                <com.stickermaker.app.ui.CropView
                     android:id="@+id/preview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:importantForAccessibility="no"
-                    android:scaleType="fitCenter" />
+                    android:importantForAccessibility="no" />
 
                 <com.google.android.material.progressindicator.CircularProgressIndicator
                     android:id="@+id/previewLoading"
@@ -51,14 +50,11 @@
                 android:text="@string/framing"
                 android:textAppearance="?attr/textAppearanceLabelLarge" />
 
-            <com.google.android.material.button.MaterialButtonToggleGroup
-                android:id="@+id/framingGroup"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                app:checkedButton="@+id/framingFit"
-                app:selectionRequired="true"
-                app:singleSelection="true">
+                android:orientation="horizontal">
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/framingFit"
@@ -68,6 +64,10 @@
                     android:layout_weight="1"
                     android:text="@string/fit" />
 
+                <Space
+                    android:layout_width="12dp"
+                    android:layout_height="0dp" />
+
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/framingFill"
                     style="?attr/materialButtonOutlinedStyle"
@@ -75,7 +75,15 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/fill" />
-            </com.google.android.material.button.MaterialButtonToggleGroup>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="@string/crop_hint"
+                android:textAppearance="?attr/textAppearanceBodySmall"
+                android:textColor="?attr/colorOnSurfaceVariant" />
 
             <LinearLayout
                 android:id="@+id/timeSection"

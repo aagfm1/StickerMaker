@@ -5,7 +5,6 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Paint
-import android.graphics.RectF
 import android.net.Uri
 import android.os.Build
 import kotlinx.coroutines.Dispatchers
@@ -15,8 +14,8 @@ import java.io.ByteArrayOutputStream
 import kotlin.coroutines.coroutineContext
 
 data class ConvertOptions(
-    /** true = crop to fill the square, false = fit inside with transparent margins. */
-    val fill: Boolean,
+    /** Position and zoom chosen by the user in the editor. */
+    val crop: CropTransform,
     /** Static packs: frame position. Animated packs: clip start. */
     val startMs: Long = 0,
     /** Animated packs only: clip length. */
@@ -49,7 +48,7 @@ class StickerConverter(private val context: Context) {
     private suspend fun convertStatic(uri: Uri, kind: MediaKind, o: ConvertOptions, progress: (Float) -> Unit): StickerResult {
         progress(0.1f)
         val source = previewSource(context, uri, kind, o.startMs)
-        val sticker = render(source, o.fill)
+        val sticker = render(source, o.crop)
         progress(0.5f)
         for (q in intArrayOf(92, 85, 75, 65, 55, 45, 35, 25, 15)) {
             coroutineContext.ensureActive()
@@ -73,7 +72,7 @@ class StickerConverter(private val context: Context) {
         var firstFrame: Bitmap? = null
 
         fun keep(source: Bitmap, durationMs: Int) {
-            val rendered = render(source, o.fill)
+            val rendered = render(source, o.crop)
             if (firstFrame == null) firstFrame = rendered
             frames += CachedFrame(encodeWebp(rendered, CACHE_QUALITY), durationMs)
             if (rendered !== firstFrame) rendered.recycle()
@@ -171,17 +170,13 @@ class StickerConverter(private val context: Context) {
             }
         }
 
-        /** Draws [src] centred on a transparent 512x512 canvas. */
-        fun render(src: Bitmap, fill: Boolean, size: Int = WaSpec.STICKER_SIZE): Bitmap {
+        /** Draws [src] on a transparent 512x512 canvas, positioned by [crop]. */
+        fun render(src: Bitmap, crop: CropTransform, size: Int = WaSpec.STICKER_SIZE): Bitmap {
+            val source = MediaLoader.software(src)
             val out = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888)
-            val sx = size.toFloat() / src.width
-            val sy = size.toFloat() / src.height
-            val scale = if (fill) maxOf(sx, sy) else minOf(sx, sy)
-            val w = src.width * scale
-            val h = src.height * scale
-            val left = (size - w) / 2f
-            val top = (size - h) / 2f
-            Canvas(out).drawBitmap(src, null, RectF(left, top, left + w, top + h), Paint(Paint.FILTER_BITMAP_FLAG))
+            val dest = crop.clamped(source.width, source.height).destRect(source.width, source.height, size)
+            Canvas(out).drawBitmap(source, null, dest, Paint(Paint.FILTER_BITMAP_FLAG))
+            if (source !== src) source.recycle()
             return out
         }
 
@@ -199,7 +194,7 @@ class StickerConverter(private val context: Context) {
 
         /** 96x96 PNG tray icon, as WhatsApp requires. */
         fun makeTray(firstFrame: Bitmap): ByteArray {
-            val tray = render(firstFrame, fill = false, size = WaSpec.TRAY_SIZE)
+            val tray = render(firstFrame, CropTransform.FIT, size = WaSpec.TRAY_SIZE)
             val out = ByteArrayOutputStream()
             tray.compress(Bitmap.CompressFormat.PNG, 100, out)
             tray.recycle()
